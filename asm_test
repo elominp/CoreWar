@@ -1,0 +1,35 @@
+#!/bin/bash
+make re
+mkdir -p result_test_champ
+mkdir -p ./result_test_champ/champ_original
+mkdir -p ./result_test_champ/champ_comp_by_us/
+
+./asm/asm ./test/champ/2000/src/ex.s
+xxd ./test/champ/2000/src/ex.cor > result_comp_asm_ex.diff
+xxd ./test/champ/2000/ex.cor > original_ex.diff
+cp  result_comp_asm_ex.diff result_test_champ/champ_comp_by_us/
+cp original_ex.diff ./result_test_champ/champ_original
+diff -awys ./result_test_champ/champ_comp_by_us/result_comp_asm_ex.diff ./result_test_champ/champ_original/original_ex.diff > result_ex_champ.diff | colordiff
+rm result_comp_asm_ex.diff original_ex.diff
+cp result_ex_champ.diff ./result_test_champ
+rm result_ex_champ.diff
+
+
+
+./asm/asm ./test/champ/2000/src/42.s
+xxd ./test/champ/2000/src/42.cor > result_comp_asm_42.diff
+xxd ./test/champ/2000/42.cor > original_42_champ.diff
+cp result_comp_asm_42.diff ./result_test_champ/champ_comp_by_us/
+cp original_42_champ.diff ./result_test_champ/champ_original
+diff -awys ./result_test_champ/champ_comp_by_us/result_comp_asm_42.diff ./result_test_champ/champ_original/original_42_champ.diff > result_42_champ.diff | colordiff
+rm result_comp_asm_42.diff original_42_champ.diff
+cp  result_42_champ.diff ./result_test_champ
+rm result_42_champ.diff
+
+./asm/asm ./test/champ/2000/src/ex2.s
+
+./asm/asm ./test/champ/2000/src/ex3.s
+./asm/asm ./test/champ/2000/src/ex4.s
+./asm/asm libmy.a
+./asm/asm ./test/champ/2000/toto.cor
+
